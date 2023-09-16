@@ -12,10 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-// app.use('/api/v1', routes);
-app.get('/', (req, res) => {
-  res.send('server started');
-});
+app.use('/api/v1', routes);
 
 app.use(globalExceptionHandler);
 
