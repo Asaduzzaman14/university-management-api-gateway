@@ -9,7 +9,7 @@ interface IResponse {
     limit: number;
     total: number;
   };
-  data?: unknown;
+  data?: any;
 }
 
 const sendResponse = <T>(

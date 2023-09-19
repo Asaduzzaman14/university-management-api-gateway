@@ -12,6 +12,27 @@ const inserIntoDB = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const getAllFromDB = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const result = await AcademicSemesterService.getAllFromDB(req);
+
+    sendResponse(res, result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateOneIntoDB = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const result = await AcademicSemesterService.updateInToDB(req);
+    sendResponse(res, result);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const AcademicSemesterController = {
-  inserIntoDB
+  inserIntoDB,
+  getAllFromDB,
+  updateOneIntoDB
 };
