@@ -31,8 +31,28 @@ const updateOneIntoDB = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
+const getByIdFromDB = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const result = await AcademicSemesterService.getByIdFromDB(req);
+    sendResponse(res, result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteByIdFromDB = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const result = await AcademicSemesterService.deleteSemesterById(req);
+    sendResponse(res, result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const AcademicSemesterController = {
   inserIntoDB,
   getAllFromDB,
-  updateOneIntoDB
+  updateOneIntoDB,
+  getByIdFromDB,
+  deleteByIdFromDB
 };

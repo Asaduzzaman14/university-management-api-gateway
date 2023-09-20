@@ -38,8 +38,33 @@ const updateInToDB = async (req: Request): Promise<IGenericResponse> => {
   return response;
 };
 
+const getByIdFromDB = async (req: Request): Promise<IGenericResponse> => {
+  const id = req.params.id;
+  const response: IGenericResponse = await HttpService.get(`/academic-semesters/${id}`, {
+    params: req.query,
+    headers: {
+      Authorization: req.headers.authorization
+    }
+  });
+  return response;
+};
+
+const deleteSemesterById = async (req: Request): Promise<IGenericResponse> => {
+  const id = req.params.id;
+
+  const response: IGenericResponse = await HttpService.delete(`/academic-semesters/${id}`, {
+    headers: {
+      Authorization: req.headers.authorization
+    }
+  });
+
+  return response;
+};
+
 export const AcademicSemesterService = {
   inserIntoDB,
   getAllFromDB,
-  updateInToDB
+  updateInToDB,
+  getByIdFromDB,
+  deleteSemesterById
 };
