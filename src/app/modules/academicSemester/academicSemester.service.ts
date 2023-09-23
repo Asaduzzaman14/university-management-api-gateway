@@ -3,7 +3,7 @@ import { CoreService as HttpService } from '../../../shared/axios';
 import { Request } from 'express';
 
 const inserIntoDB = async (req: Request): Promise<IGenericResponse> => {
-  const response: IGenericResponse = await HttpService.post('/academic-departments', req.body, {
+  const response: IGenericResponse = await HttpService.post('/academic-semesters', req.body, {
     headers: {
       Authorization: req.headers.authorization
     }
@@ -13,7 +13,7 @@ const inserIntoDB = async (req: Request): Promise<IGenericResponse> => {
 
 const getAllFromDB = async (req: Request): Promise<IGenericResponse> => {
   const params = req.params;
-  const response: IGenericResponse = await HttpService.get('/academic-departments', {
+  const response: IGenericResponse = await HttpService.get('/academic-semesters', {
     params: req.query,
     headers: {
       Authorization: req.headers.authorization
@@ -26,7 +26,7 @@ const updateInToDB = async (req: Request): Promise<IGenericResponse> => {
   const id = req.params.id;
 
   const response: IGenericResponse = await HttpService.patch(
-    `/academic-departments/${id}`,
+    `/academic-semesters/${id}`,
     req.body,
     {
       headers: {
