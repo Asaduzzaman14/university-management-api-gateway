@@ -7,9 +7,9 @@ Course (core )
 Offered Course (core )
 Offered Course Section (core )
 Semester Registration (core )
-
-
 Offered Course Class Schedule (core )
+
+
 Student Enrolled Course (core )
 Student Enrolled Course Mark (core )
 Semester Payment (core )
