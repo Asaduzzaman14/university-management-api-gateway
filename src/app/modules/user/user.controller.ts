@@ -1,9 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { fileUploaderhealper } from '../../../helpers/fileUploderHelper';
+import { UserService } from './user.service';
+import sendResponse from '../../../shared/response';
 
-const createStudent = async (req: Request, res: Response, Next: NextFunction) => {
-  console.log(req.file, req.data);
+const createStudent = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const result = await UserService.createStudent(req);
+    sendResponse(res, result);
+  } catch (error) {
+    next(error);
+  }
 
   // fileUploaderhealper.uplodeToCloudunary();
 };
