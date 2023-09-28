@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response } from 'express';
-import { AuthService, CoreService } from '../../../shared/axios';
+import { Request } from 'express';
+import { AuthService } from '../../../shared/axios';
 import { IGenericResponse } from '../../../interfaces/common';
 import { FileUploadHelper } from '../../../helpers/fileUploderHelper';
 import { ICloudinaryResponse, IUploadFile } from '../../../interfaces/file';
@@ -9,7 +9,6 @@ const createStudent = async (req: Request) => {
   console.log(file);
 
   const uplodeImage = await FileUploadHelper.uploadToCloudinary(file);
-  console.log(uplodeImage);
 
   if (uplodeImage) {
     req.body.profileImage = uplodeImage.secure_url;
@@ -53,6 +52,60 @@ const createStudent = async (req: Request) => {
   return response;
 };
 
+const createFaculty = async (req: Request): Promise<IGenericResponse> => {
+  const file = req.file as IUploadFile;
+
+  const uploadedProfileImage = await FileUploadHelper.uploadToCloudinary(file);
+
+  if (uploadedProfileImage) {
+    req.body.faculty.profileImage = uploadedProfileImage.secure_url;
+  }
+
+  const { academicDepartment, academicFaculty } = req.body.faculty;
+
+  const academicDepartmentResponse: IGenericResponse = await AuthService.get(
+    `/academic-departments?syncId=${academicDepartment}`
+  );
+
+  if (academicDepartmentResponse.data && Array.isArray(academicDepartmentResponse.data)) {
+    req.body.faculty.academicDepartment = academicDepartmentResponse.data[0].id;
+  }
+
+  const academicFacultyResponse: IGenericResponse = await AuthService.get(
+    `/academic-faculties?syncId=${academicFaculty}`
+  );
+
+  if (academicFacultyResponse.data && Array.isArray(academicFacultyResponse.data)) {
+    req.body.faculty.academicFaculty = academicFacultyResponse.data[0].id;
+  }
+
+  const response: IGenericResponse = await AuthService.post('/users/create-faculty', req.body, {
+    headers: {
+      Authorization: req.headers.authorization
+    }
+  });
+  return response;
+};
+
+const createAdmin = async (req: Request): Promise<IGenericResponse> => {
+  const file = req.file as IUploadFile;
+
+  const uploadedProfileImage = await FileUploadHelper.uploadToCloudinary(file);
+
+  if (uploadedProfileImage) {
+    req.body.admin.profileImage = uploadedProfileImage.secure_url;
+  }
+
+  const response: IGenericResponse = await AuthService.post('/users/create-admin', req.body, {
+    headers: {
+      Authorization: req.headers.authorization
+    }
+  });
+  return response;
+};
+
 export const UserService = {
-  createStudent
+  createStudent,
+  createFaculty,
+  createAdmin
 };
