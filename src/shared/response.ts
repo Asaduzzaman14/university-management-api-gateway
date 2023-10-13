@@ -33,6 +33,7 @@ const sendResponse = <T>(
     meta: data.meta,
     data: data.data || null
   };
+  console.log(response);
 
   res.status(data.statusCode).json(response);
 };
